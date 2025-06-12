@@ -1,20 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ImageBackground, StyleSheet } from 'react-native';
+import LoginScreen from './src/app/login';
+import SignupScreen from './src/app/singup';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ImageBackground
+      source={require('./assets/background.png')}
+      resizeMode="cover"
+      style={styles.background}
+    >
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
 });
