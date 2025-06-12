@@ -1,11 +1,21 @@
-import { api } from './api';
+import axios from 'axios';
 
-export async function login(email: string, senha: string) {
-  const response = await api.post('/login', { email, senha });
+const API_URL = 'https://pi-backend-4.onrender.com'; 
+// const API_URL = 'https://192.168.100.164:9000'; 
+
+
+
+export async function login(email: string, password: string) {
+  const response = await axios.post(`${API_URL}/login/signin`, { email, password });
   return response.data;
 }
 
-export async function signup(email: string, senha: string) {
-  const response = await api.post('/signup', { email, senha });
+export async function signup(user: string, email: string, password: string, confirmedPassword: string) {
+  const response = await axios.post(`${API_URL}/login/signup`, {
+    user,
+    email,
+    password,
+    confirmedPassword
+  });
   return response.data;
 }

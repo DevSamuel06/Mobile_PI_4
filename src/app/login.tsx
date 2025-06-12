@@ -6,14 +6,16 @@ import {
   ActivityIndicator,
   StyleSheet,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
-import { login } from '../services/auth';
-import { useNavigation } from '@react-navigation/native';
 import ButtonLogin from '../components/ButtonLogin';
 import ButtonSignup from '../components/ButtonSignup';
+import { login } from '../services/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LoginScreen() {
-  const navigation = useNavigation();
+export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,8 @@ export default function LoginScreen() {
       const data = await login(email, senha);
 
       if (data.token) {
-        navigation.navigate('Home' as never);
+        // await AsyncStorage.setItem('user', data.user); 
+        navigation.navigate('Home');
       } else {
         setErro('Resposta inesperada da API');
       }
@@ -47,39 +50,44 @@ export default function LoginScreen() {
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.overlay}>
-        <Text style={styles.label}>E-mail:</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          style={styles.input}
-          placeholder="Digite seu e-mail"
-          placeholderTextColor="#ccc"
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.overlay}
+      >
+        <View>
+          <Text style={styles.label}>E-mail:</Text>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            style={styles.input}
+            placeholder="Digite seu e-mail"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Senha:</Text>
-        <TextInput
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-          style={styles.input}
-          placeholder="Digite sua senha"
-          placeholderTextColor="#ccc"
-        />
+          <Text style={styles.label}>Senha:</Text>
+          <TextInput
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+            style={styles.input}
+            placeholder="Digite sua senha"
+            placeholderTextColor="#ccc"
+          />
 
-        {erro ? <Text style={styles.error}>{erro}</Text> : null}
+          {erro ? <Text style={styles.error}>{erro}</Text> : null}
 
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <>
-            <ButtonLogin onPress={handleLogin} disabled={!email || !senha} />
-            <ButtonSignup onPress={() => navigation.navigate('Signup' as never)} />
-          </>
-        )}
-      </View>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <>
+              <ButtonLogin onPress={handleLogin} disabled={!email || !senha} />
+              <ButtonSignup onPress={() => navigation.navigate('Signup')} />
+            </>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
@@ -87,28 +95,36 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
   overlay: {
     flex: 1,
-    padding: 20,
     justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  container: {
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 16,
+    padding: 20,
   },
   label: {
-    color: '#fff',
-    fontSize: 16,
+    color: 'white',
     marginBottom: 4,
+    fontSize: 16,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 20,
     padding: 10,
-    borderRadius: 6,
-    marginBottom: 16,
+    marginBottom: 12,
     color: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   error: {
     color: 'red',
     marginBottom: 12,
+    textAlign: 'center',
   },
 });
