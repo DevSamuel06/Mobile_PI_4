@@ -9,7 +9,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonRedirect from '../components/ButtonRedirect';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: any) {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
@@ -21,8 +21,7 @@ export default function HomeScreen() {
   }, []);
 
   const openDashboard = () => {
-    // Substitua pela URL real do seu dashboard do Data Studio
-    Linking.openURL('https://lookerstudio.google.com/u/0/reporting/14699bb1-d3a1-44e4-8d66-d88243dbcd2c/page/nEsNF');
+    navigation.navigate('Dashboard');
   };
 
   return (
