@@ -1,3 +1,13 @@
+#### Grupo:
+
+<ul>
+  <li>Samuel Ribeiro Filho</li>
+  <li>Victor Hugo Ferreira Soares</li>
+  <li>Pedro Afonso Acacio da Silva</li>
+  <li>Arthur R. Ferreira</li> 
+</ul>
+
+
 # 🌤️ Clima App
 
 Clima App é um aplicativo mobile desenvolvido com **React Native** e **Expo**, com o objetivo de fornecer uma interface simples de autenticação e um painel analítico hospedado no **Google Data Studio**.
