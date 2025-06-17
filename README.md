@@ -38,7 +38,7 @@ cd clima-app
 
 2. Instale as dependências:
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 3. Execute o projeto:
